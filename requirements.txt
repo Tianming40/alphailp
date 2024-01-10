@@ -1,7 +1,7 @@
 ### NSFR
 torch==1.8.1
 lark-parser
-sklearn
+scikit-learn
 torchsummary
 setuptools>=58.5.3
 tensorboard
