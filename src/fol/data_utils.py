@@ -135,3 +135,11 @@ class DataUtils(object):
         consts = self.load_consts(self.base_path + 'consts.txt')
         lang = Language(preds, [], consts)
         return lang
+
+    #TODO
+    def meta_clause(self):
+        return
+
+    def meta_solve(self):
+        if DataType is DataType.BOOL:
+            return Matasolve

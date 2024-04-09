@@ -111,7 +111,42 @@ class YOLOValuationModule(nn.Module):
             Return:
                 The tensor representation of the input term.
         """
-        term_index = self.lang.term_index(term)
+        # TODO debug
+        """(alphailp) ming@LAPTOP-EMOK5QV6:/mnt/d/UNI/alphailp$ python src/predict_kandinsky.py --dataset twopairs
+args  Namespace(batch_size=1, dataset='twopairs', dataset_type='kandinsky', device='cpu', e=4, gamma=0.01, m=3, no_cuda=True, num_workers=4, plot=False, small_data=False)
+device:  cpu
+clauses:  [kp(X):-in(O1,X),in(O2,X),in(O3,X),in(O4,X).]
+Loading YOLO model...
+Predicting on validation data set...
+0it [00:00, ?it/s]
+Traceback (most recent call last):
+  File "src/predict_kandinsky.py", line 151, in <module>
+    main()
+  File "src/predict_kandinsky.py", line 132, in main
+    acc_val, rec_val, th_val = predict(
+  File "src/predict_kandinsky.py", line 51, in predict
+    V_T = NSFR(imgs)
+  File "/home/ming/anaconda3/envs/alphailp/lib/python3.8/site-packages/torch/nn/modules/module.py", line 889, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/mnt/d/UNI/alphailp/src/nsfr.py", line 43, in forward
+    V_0 = self.fc(zs, self.atoms, self.bk)
+  File "/home/ming/anaconda3/envs/alphailp/lib/python3.8/site-packages/torch/nn/modules/module.py", line 889, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/mnt/d/UNI/alphailp/src/facts_converter.py", line 27, in forward
+    return self.convert(Z, G, B)
+  File "/mnt/d/UNI/alphailp/src/facts_converter.py", line 58, in convert
+    V[:, i] = self.vm(Z, atom)
+  File "/home/ming/anaconda3/envs/alphailp/lib/python3.8/site-packages/torch/nn/modules/module.py", line 889, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/mnt/d/UNI/alphailp/src/valuation.py", line 97, in forward
+    args = [self.ground_to_tensor(term, zs) for term in atom.terms]
+  File "/mnt/d/UNI/alphailp/src/valuation.py", line 97, in <listcomp>
+    args = [self.ground_to_tensor(term, zs) for term in atom.terms]
+  File "/mnt/d/UNI/alphailp/src/valuation.py", line 116, in ground_to_tensor
+    return zs[:, term_index]
+IndexError: index 4 is out of bounds for dimension 1 with size 4
+"""
+        term_index = self.lang.term_index(term)-1
         if term.dtype.name == 'object':
             return zs[:, term_index]
         elif term.dtype.name == 'color' or term.dtype.name == 'shape':

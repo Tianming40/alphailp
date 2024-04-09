@@ -38,7 +38,7 @@ def get_searched_clauses(lark_path, lang_base_path, dataset_type, dataset):
     return clauses
 
 
-
+# TODO internal used! with _
 def _get_lang(lark_path, lang_base_path, dataset_type, dataset):
     """Load the language of first-order logic from files.
 

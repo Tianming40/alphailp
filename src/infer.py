@@ -164,6 +164,7 @@ class ClauseInferModule(nn.Module):
         a Tensor of output data. We can use Modules defined in the constructor as
         well as arbitrary operators on Tensors.
         """
+        # TODO 我的理解：这里完成了 T-time step inference is computed by amalgamating the inference results recursively
         B = x.size(0)
         # C * B * G
         R = x.unsqueeze(dim=0).expand(self.C, B, self.G)

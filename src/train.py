@@ -189,6 +189,28 @@ def train_nsfr(args, NSFR, optimizer, train_loader, val_loader, test_loader, dev
 
     return loss
 
+# # Meta interpreter rules
+# def solve_true():
+#     return True
+# def is_bk_clause(section):
+#     if section can be found in bk_clauses:
+#         return bk_clause
+#     else:
+#         return False
+#
+#
+# # TODO pesedo CODE!!!!!
+# def solve(clause):
+#    for section in clause:
+#        if section == fact: # ground atom
+#            section = "solve(" + clause[section] + ")"
+#        else if section can be found in bk_clauses: # that mean can be found in A:-B,
+#            section = "clause(" + clause[section] + B found in bk clause + ")"
+#            clause.append(solve(B found in bk clause))
+# def meta_conventer(clauses):
+# # Process the clauses using the meta interpreter
+#     for clause in clauses:
+#        solve(clause)
 
 def main(n):
     args = get_args()
@@ -249,7 +271,15 @@ def main(n):
     else:
         clauses = cgen.generate(
             clauses, T_beam=args.t_beam, N_beam=args.n_beam, N_max=args.n_max)
-    print("====== ", len(clauses), " clauses are generated!! ======")
+
+
+
+    # # TODO i want to use the meta interpreter to cenvert the clauses to meta level atom use solve and clause
+    # meta_conventer(clauses)
+    #
+    # print("====== ", len(clauses), " clauses are generated!! ======")
+
+
     # update
     NSFR = get_nsfr_model(args, lang, clauses, atoms, bk,
                           bk_clauses, device, train=True)

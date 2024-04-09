@@ -25,7 +25,7 @@ def get_args():
     parser.add_argument("--small-data", action="store_true", help="Use small training data.")
     parser.add_argument('--device', default='cpu',
                         help='cuda device, i.e. 0 or cpu')
-    parser.add_argument("--no-cuda", action="store_true",
+    parser.add_argument("--no-cuda", default=True, action="store_true",
                         help="Run on CPU instead of GPU (not recommended)")
     parser.add_argument("--num-workers", type=int, default=4,
                         help="Number of threads for data loader")
@@ -49,7 +49,9 @@ def predict(NSFR, loader, args, device, writer, th=None, split='train'):
 
         # infer and predict the target probability
         V_T = NSFR(imgs)
+        #print(V_T)
         predicted = get_prob(V_T, NSFR, args)
+        #print(predicted)
         predicted_list.append(predicted)
         target_list.append(target_set)
         if args.plot:
@@ -58,9 +60,11 @@ def predict(NSFR, loader, args, device, writer, th=None, split='train'):
                 V_T, NSFR.atoms, NSFR.pm.e, th=0.3)
             save_images_with_captions(
                 imgs, captions, folder='result/kandinsky/' + args.dataset + '/' + split + '/', img_id_start=count, dataset=args.dataset)
+            #print(captions)
         count += V_T.size(0)  # batch size
-
+    #print(predicted_list)
     predicted = torch.cat(predicted_list, dim=0).detach().cpu().numpy()
+    #print(predicted)
     target_set = torch.cat(target_list, dim=0).to(
         torch.int64).detach().cpu().numpy()
 
@@ -117,10 +121,15 @@ def main():
 
     lang, clauses, bk_clauses, bk, atoms = get_lang(
         lark_path, lang_base_path, args.dataset_type, args.dataset)
+    print('lang: ', lang)
     print("clauses: ", clauses)
+    print("bk_clauses: ", bk_clauses)
+    print("bk: ", bk)
+    print("atoms: ", atoms)
 
     # Neuro-Symbolic Forward Reasoner for clause generation
     NSFR = get_nsfr_model(args, lang, clauses, atoms, bk, bk_clauses, device=device)
+    #print(NSFR)
     #lang, clauses, bk, atoms = get_lang(
     #    lark_path, lang_base_path, args.dataset_type, args.dataset)
 
